@@ -12,6 +12,7 @@ import com.sportsDay.dto.AllEventsResponse;
 import com.sportsDay.dto.Event;
 import com.sportsDay.dto.RegisteredEventRequest;
 import com.sportsDay.dto.RegisteredEventsResponse;
+import com.sportsDay.exception.EmptyInputException;
 import com.sportsDay.model.EventDetails;
 import com.sportsDay.repository.EventDetailsRepository;
 import com.sportsDay.repository.UserEventDetailsRepository;
@@ -52,6 +53,10 @@ public class EventsServiceImpl implements EventsService{
 	@Transactional
 	public RegisteredEventsResponse getRegisteredEvents(RegisteredEventRequest registeredEventsRequest) {
 		List<Object> data = new ArrayList<>();
+		if(registeredEventsRequest.getUserId()==null || registeredEventsRequest.getUserId()==""
+				|| registeredEventsRequest.getUserId().isBlank()) {
+			throw new EmptyInputException("User Id cannot be empty");
+		}
 		data = userEventDetailsRepository.findByUserId(registeredEventsRequest.getUserId());
 		
 		RegisteredEventsResponse response = new RegisteredEventsResponse();

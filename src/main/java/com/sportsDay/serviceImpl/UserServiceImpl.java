@@ -18,6 +18,7 @@ import com.sportsDay.dto.UnRegisterEventRequest;
 import com.sportsDay.dto.UnRegisterEventResponse;
 import com.sportsDay.dto.User;
 import com.sportsDay.exception.BadRequestException;
+import com.sportsDay.exception.EmptyInputException;
 import com.sportsDay.exception.NotFoundException;
 import com.sportsDay.exception.ServiceRequestFailureException;
 import com.sportsDay.model.UserProfile;
@@ -40,6 +41,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public LoginResponse doLogin(LoginRequest loginRequest) throws Exception {
+		if(loginRequest.getUserId()==null || loginRequest.getUserId()==""
+				|| loginRequest.getUserId().isBlank()) {
+			throw new EmptyInputException("User Id cannot be empty");
+		}
 		LoginResponse loginResponse = new LoginResponse();
 		User user = new User();
 		
@@ -72,6 +77,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public RegisterEventResponse registerEvent(RegisterEventRequest registerEventRequest) throws Exception {
+		if(registerEventRequest.getEventId()==null || registerEventRequest.getEventId()=="" 
+				|| registerEventRequest.getEventId().isBlank()) {
+			throw new EmptyInputException("Event Id cannot be empty");
+		}
+		if(registerEventRequest.getUserId()==null || registerEventRequest.getUserId()==""
+				|| registerEventRequest.getUserId().isBlank()) {
+			throw new EmptyInputException("User Id cannot be empty");
+		}
+		
 		RegisterEventResponse response = new RegisterEventResponse();
 		try {
 			Integer id = userEventDetailsRepository.findMaxId();
@@ -103,6 +117,14 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public UnRegisterEventResponse unregisterEvent(UnRegisterEventRequest unregisterEventRequest) {
 		UnRegisterEventResponse response = new UnRegisterEventResponse();
+		if(unregisterEventRequest.getEventId()==null || unregisterEventRequest.getEventId()=="" 
+				|| unregisterEventRequest.getEventId().isBlank()) {
+			throw new EmptyInputException("Event Id cannot be empty");
+		}
+		if(unregisterEventRequest.getUserId()==null || unregisterEventRequest.getUserId()==""
+				|| unregisterEventRequest.getUserId().isBlank()) {
+			throw new EmptyInputException("User Id cannot be empty");
+		}
 		try {
 //			userEventDetailsRepository.deleteByUserIdAndEventId(unregisterEventRequest.getUserId(), unregisterEventRequest.getEventId());
 			userDao.unregisterEvent(unregisterEventRequest);
