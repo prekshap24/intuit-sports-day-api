@@ -90,14 +90,11 @@ public class UserServiceImpl implements UserService {
 			
 			userEventDetailsRepository.registerEvent(idd, 
 					registerEventRequest.getUserId(), 
-					registerEventRequest.getEventId(), 
-					registerEventRequest.getEventName(),
-					registerEventRequest.getStartTime(), 
-					registerEventRequest.getEndTime());
+					registerEventRequest.getEventId());
 		} catch (Exception e) {
 			throw new ServiceRequestFailureException("Event is already added for this user!");
 		}
-		response.setEventName(registerEventRequest.getEventName());
+		response.setEventId(registerEventRequest.getEventId());
 		response.setUserId(registerEventRequest.getUserId());
 		return response;
 	}

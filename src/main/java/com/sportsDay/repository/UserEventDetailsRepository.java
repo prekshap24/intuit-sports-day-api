@@ -15,7 +15,7 @@ import com.sportsDay.model.UserEventDetails;
 @Repository
 public interface UserEventDetailsRepository extends JpaRepository<UserEventDetails, String> {
 	
-	@Query("SELECT u.id, u.eventId, u.eventName, u.startTime, u.endTime, p.eventCategory FROM "
+	@Query("SELECT u.id, u.eventId, p.eventName, p.startTime, p.endTime, p.eventCategory FROM "
 			+ "UserEventDetails u inner join EventDetails p "
 			+ "on u.eventId = p.eventId where u.userId=:id")
 	List<Object> findByUserId(@Param("id") String userId);
@@ -28,15 +28,12 @@ public interface UserEventDetailsRepository extends JpaRepository<UserEventDetai
 	List<String> findAllEventIdsForUserId(@Param("id") String userId);
 	
 	@Modifying
-    @Query(value = "INSERT INTO user_event_details (id, user_id, event_id, event_name, start_time, end_time) "
-    		+ "VALUES (:id, :a, :b, :c, :d, :e)", nativeQuery = true)
+    @Query(value = "INSERT INTO user_event_details (id, user_id, event_id) "
+    		+ "VALUES (:id, :a, :b)", nativeQuery = true)
 	@Transactional
     void registerEvent(@Param("id") int id,
     		@Param("a") String userId, 
-    		@Param("b") String eventId,
-    		@Param("c") String eventName,
-    		@Param("d") String startTime,
-    		@Param("e") String endTime);
+    		@Param("b") String eventId);
 	
 	@Modifying
 	@Query("DELETE UserEventDetails where eventId=:eventId and userId=:userId")

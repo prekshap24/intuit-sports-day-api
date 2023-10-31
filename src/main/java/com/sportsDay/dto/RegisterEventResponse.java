@@ -3,21 +3,21 @@ package com.sportsDay.dto;
 public class RegisterEventResponse {
 	
 	private String userId;
-	private String eventName;
+	private String eventId;
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getEventName() {
-		return eventName;
+	public String getEventId() {
+		return eventId;
 	}
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
 	}
 	@Override
 	public String toString() {
-		return "RegisterEventResponse [userId=" + userId + ", eventName=" + eventName + "]";
+		return "RegisterEventResponse [userId=" + userId + ", eventId=" + eventId + "]";
 	}
 }
